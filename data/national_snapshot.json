@@ -1,0 +1,360 @@
+{
+ "report": "Agmarknet Marketwise Price & Arrival Report",
+ "dates": [
+  "02 Oct, 2026",
+  "01 Oct, 2026",
+  "30 Sep, 2026"
+ ],
+ "crops": {
+  "Bajra(Pearl Millet/Cumbu)": {
+   "group": "Cereals",
+   "msp": 2900.0,
+   "price": [
+    2285.52,
+    2298.01,
+    2152.85
+   ],
+   "arrival_mt": [
+    3852.16,
+    3298.6,
+    5071.58
+   ]
+  },
+  "Barley(Jau)": {
+   "group": "Cereals",
+   "msp": 2150.0,
+   "price": [
+    2396.74,
+    2620.74,
+    2651.9
+   ],
+   "arrival_mt": [
+    149.77,
+    101.25,
+    388.0
+   ]
+  },
+  "Jowar(Sorghum)": {
+   "group": "Cereals",
+   "msp": 4023.0,
+   "price": [
+    4324.49,
+    5513.08,
+    4437.87
+   ],
+   "arrival_mt": [
+    189.2,
+    134.29,
+    308.68
+   ]
+  },
+  "Maize": {
+   "group": "Cereals",
+   "msp": 2410.0,
+   "price": [
+    2220.88,
+    2051.75,
+    2149.71
+   ],
+   "arrival_mt": [
+    8838.35,
+    23890.9,
+    28921.3
+   ]
+  },
+  "Paddy(Common)": {
+   "group": "Cereals",
+   "msp": 2441.0,
+   "price": [
+    3268.01,
+    3310.64,
+    3082.68
+   ],
+   "arrival_mt": [
+    110559.12,
+    99130.46,
+    78085.31
+   ]
+  },
+  "Ragi(Finger Millet)": {
+   "group": "Cereals",
+   "msp": 5205.0,
+   "price": [
+    3485.26,
+    4190.35,
+    3547.46
+   ],
+   "arrival_mt": [
+    38.0,
+    105.4,
+    201.0
+   ]
+  },
+  "Wheat": {
+   "group": "Cereals",
+   "msp": 2585.0,
+   "price": [
+    2594.29,
+    2625.96,
+    2651.04
+   ],
+   "arrival_mt": [
+    18602.16,
+    36782.98,
+    51235.62
+   ]
+  },
+  "Cotton": {
+   "group": "Fibre Crops",
+   "msp": 8267.0,
+   "price": [
+    8277.28,
+    8138.42,
+    8121.96
+   ],
+   "arrival_mt": [
+    12671.96,
+    10551.43,
+    10682.81
+   ]
+  },
+  "Copra": {
+   "group": "Oil Seeds",
+   "msp": 12100.0,
+   "price": [
+    25215.04,
+    26730.68,
+    22562.33
+   ],
+   "arrival_mt": [
+    37.9,
+    103.5,
+    108.3
+   ]
+  },
+  "Groundnut": {
+   "group": "Oil Seeds",
+   "msp": 7517.0,
+   "price": [
+    7470.57,
+    7354.36,
+    7221.65
+   ],
+   "arrival_mt": [
+    6327.52,
+    3850.01,
+    4206.28
+   ]
+  },
+  "Mustard": {
+   "group": "Oil Seeds",
+   "msp": 6200.0,
+   "price": [
+    7490.53,
+    7603.21,
+    7601.55
+   ],
+   "arrival_mt": [
+    1833.26,
+    3382.96,
+    3164.73
+   ]
+  },
+  "Niger Seed(Ramtil)": {
+   "group": "Oil Seeds",
+   "msp": 10052.0,
+   "price": [
+    null,
+    10250.0,
+    10779.71
+   ],
+   "arrival_mt": [
+    null,
+    6.9,
+    6.9
+   ]
+  },
+  "Safflower": {
+   "group": "Oil Seeds",
+   "msp": 6540.0,
+   "price": [
+    null,
+    7222.52,
+    5103.0
+   ],
+   "arrival_mt": [
+    null,
+    85.0,
+    17.4
+   ]
+  },
+  "Sesamum(Sesame,Gingelly,Til)": {
+   "group": "Oil Seeds",
+   "msp": 10346.0,
+   "price": [
+    11751.31,
+    12136.58,
+    12160.1
+   ],
+   "arrival_mt": [
+    394.49,
+    464.73,
+    422.84
+   ]
+  },
+  "Soyabean": {
+   "group": "Oil Seeds",
+   "msp": 5708.0,
+   "price": [
+    5416.36,
+    5587.37,
+    5446.94
+   ],
+   "arrival_mt": [
+    2357.23,
+    36959.11,
+    32700.91
+   ]
+  },
+  "Sunflower/Sunflower Seed": {
+   "group": "Oil Seeds",
+   "msp": 8343.0,
+   "price": [
+    7800.0,
+    7247.04,
+    7301.11
+   ],
+   "arrival_mt": [
+    0.7,
+    99.7,
+    96.1
+   ]
+  },
+  "Sugarcane": {
+   "group": "Others",
+   "msp": 285.0,
+   "price": [
+    null,
+    null,
+    360.0
+   ],
+   "arrival_mt": [
+    null,
+    null,
+    25.0
+   ]
+  },
+  "Bengal Gram(Gram)(Whole)": {
+   "group": "Pulses",
+   "msp": 5875.0,
+   "price": [
+    8008.36,
+    6865.19,
+    6710.73
+   ],
+   "arrival_mt": [
+    439.19,
+    2944.12,
+    2834.38
+   ]
+  },
+  "Black Gram(Urd Beans)(Whole)": {
+   "group": "Pulses",
+   "msp": 8200.0,
+   "price": [
+    7464.54,
+    7314.77,
+    7091.9
+   ],
+   "arrival_mt": [
+    3465.92,
+    5772.41,
+    5469.69
+   ]
+  },
+  "Green Gram(Moong)(Whole)": {
+   "group": "Pulses",
+   "msp": 8780.0,
+   "price": [
+    8176.86,
+    8081.24,
+    8448.75
+   ],
+   "arrival_mt": [
+    3212.58,
+    6966.91,
+    12257.17
+   ]
+  },
+  "Lentil(Masur)(Whole)": {
+   "group": "Pulses",
+   "msp": 7000.0,
+   "price": [
+    10327.43,
+    8087.86,
+    7586.37
+   ],
+   "arrival_mt": [
+    213.11,
+    538.63,
+    597.34
+   ]
+  },
+  "Red gram/Arhar/Tur(whole)": {
+   "group": "Pulses",
+   "msp": 8450.0,
+   "price": [
+    8562.02,
+    8855.58,
+    8773.0
+   ],
+   "arrival_mt": [
+    1014.61,
+    2393.06,
+    2567.48
+   ]
+  },
+  "Onion": {
+   "group": "Vegetables",
+   "msp": null,
+   "price": [
+    3484.96,
+    3411.67,
+    3335.98
+   ],
+   "arrival_mt": [
+    5504.03,
+    18355.2,
+    30005.58
+   ]
+  },
+  "Potato": {
+   "group": "Vegetables",
+   "msp": null,
+   "price": [
+    566.77,
+    620.33,
+    601.64
+   ],
+   "arrival_mt": [
+    39757.14,
+    42598.88,
+    68366.75
+   ]
+  },
+  "Tomato": {
+   "group": "Vegetables",
+   "msp": null,
+   "price": [
+    2493.67,
+    2180.16,
+    1827.82
+   ],
+   "arrival_mt": [
+    3351.35,
+    7353.46,
+    16111.99
+   ]
+  }
+ }
+}

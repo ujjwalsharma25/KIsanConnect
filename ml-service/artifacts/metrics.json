@@ -1,0 +1,15 @@
+{
+  "rows": 2724,
+  "date": [
+    "19/05/2025"
+  ],
+  "model": "Ridge regression on one-hot(state, district, market, crop, variety, grade), target=log(modal price)",
+  "cv_mape_percent_all": 27.6,
+  "baseline_mape_percent_all": 39.6,
+  "cv_mape_percent_onion_potato_tomato_wheat": 23.2,
+  "baseline_mape_percent_onion_potato_tomato_wheat": 31.8,
+  "range_ratio_p10_p90": [
+    0.682,
+    1.536
+  ]
+}
