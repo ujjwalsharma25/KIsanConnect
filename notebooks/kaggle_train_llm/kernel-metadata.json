@@ -1,0 +1,16 @@
+{
+  "id": "sspanwar/KisanConnect-assistant-qlora-training",
+  "title": "KisanConnect assistant - QLoRA training",
+  "code_file": "kaggle_train_llm.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "sspanwar/KisanConnect-llm-sft",
+    "sspanwar/KisanConnect-lab-src"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

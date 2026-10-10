@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Disease Detection{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="kd-section-title mb-1"><i class="bi bi-camera me-2"></i>Leaf Disease Detection</h1>
+  <p class="text-muted mb-4">Upload a clear photo of a single leaf and our vision model will identify the crop, condition and confidence, with prevention tips.</p>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <form method="post" action="{{ url_for('farmer.submit') }}" enctype="multipart/form-data" id="detectForm">
+        <div class="kd-dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose or drop a leaf image">
+          <div id="dropzoneEmpty">
+            <i class="bi bi-cloud-arrow-up display-4 text-success"></i>
+            <p class="mb-1 fw-semibold">Click to choose a photo, or drag &amp; drop it here</p>
+            <p class="text-muted small mb-0">PNG, JPG or WEBP</p>
+          </div>
+          <div id="dropzonePreview" hidden>
+            <img id="previewImg" src="" alt="Selected leaf preview" class="mb-2">
+            <p class="small text-muted mb-0" id="fileName"></p>
+          </div>
+        </div>
+        <label for="imageInput" class="visually-hidden">Leaf image</label>
+        <input type="file" id="imageInput" name="image" accept="image/*" class="visually-hidden" required>
+        <button type="submit" class="btn btn-success w-100 mt-3" id="detectSubmit">
+          <span class="spinner-border spinner-border-sm me-2 d-none" id="detectSpinner" role="status" aria-hidden="true"></span>
+          <i class="bi bi-search me-1" id="detectIcon"></i>Analyse leaf
+        </button>
+      </form>
+
+      <div class="card kd-card p-3 mt-4">
+        <h6 class="mb-2"><i class="bi bi-camera-fill me-1"></i>Tips for a good photo</h6>
+        <ul class="small text-muted mb-0">
+          <li>Photograph a single leaf, filling most of the frame.</li>
+          <li>Use a plain background (a sheet of paper or bare ground).</li>
+          <li>Shoot in daylight, avoid strong shadows or blur.</li>
+          <li>Include both healthy and affected areas of the leaf if possible.</li>
+        </ul>
+      </div>
+
+      <p class="small text-muted mt-3">
+        <i class="bi bi-robot me-1"></i>Prefer chat? <a href="{{ url_for('chat.page') }}">Send the photo to the assistant</a> instead.
+      </p>
+
+      <p class="small text-muted mt-2 mb-0" id="consentNotice">
+        <i class="bi bi-shield-check me-1"></i>Photos you upload may be used, with your consent, to improve
+        KisanConnect's models. <a href="{{ url_for('auth.profile') }}">Manage in Profile</a>.
+      </p>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card kd-card p-3 mb-3">
+        <h6 class="mb-2"><i class="bi bi-cpu me-1"></i>Model status</h6>
+        <ul class="list-unstyled small mb-0">
+          <li><strong>Backend:</strong> {{ detector.backend }}</li>
+          <li><strong>Model:</strong> {{ detector.model }}</li>
+          <li><strong>Classes supported:</strong> {{ detector.num_classes }}</li>
+        </ul>
+        {% if not detector.available %}
+          <div class="alert alert-warning small mt-2 mb-0">
+            <i class="bi bi-exclamation-triangle me-1"></i>The disease detection model is not currently loaded, so uploads cannot be analysed right now. Please try again later or ask the assistant.
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="card kd-card p-3">
+        <h6 class="mb-2"><i class="bi bi-leaf me-1"></i>Supported crops</h6>
+        <div>
+          {% for crop in ["Apple","Blueberry","Cherry","Corn","Grape","Orange","Peach","Pepper","Potato","Raspberry","Soybean","Squash","Strawberry","Tomato"] %}
+            <span class="badge bg-light text-dark border me-1 mb-1">{{ crop }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    var dropzone = document.getElementById('dropzone');
+    var input = document.getElementById('imageInput');
+    var empty = document.getElementById('dropzoneEmpty');
+    var preview = document.getElementById('dropzonePreview');
+    var previewImg = document.getElementById('previewImg');
+    var fileName = document.getElementById('fileName');
+
+    function showFile(file) {
+      if (!file) return;
+      fileName.textContent = file.name;
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        previewImg.src = e.target.result;
+        empty.hidden = true;
+        preview.hidden = false;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    dropzone.addEventListener('click', function () { input.click(); });
+    dropzone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); }
+    });
+    input.addEventListener('change', function () { showFile(input.files[0]); });
+
+    ['dragenter', 'dragover'].forEach(function (evt) {
+      dropzone.addEventListener(evt, function (e) { e.preventDefault(); dropzone.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(function (evt) {
+      dropzone.addEventListener(evt, function (e) { e.preventDefault(); dropzone.classList.remove('dragover'); });
+    });
+    dropzone.addEventListener('drop', function (e) {
+      var files = e.dataTransfer.files;
+      if (files && files.length) {
+        input.files = files;
+        showFile(files[0]);
+      }
+    });
+
+    document.getElementById('detectForm').addEventListener('submit', function () {
+      document.getElementById('detectSpinner').classList.remove('d-none');
+      document.getElementById('detectIcon').classList.add('d-none');
+      document.getElementById('detectSubmit').setAttribute('disabled', 'disabled');
+    });
+  })();
+</script>
+{% endblock %}

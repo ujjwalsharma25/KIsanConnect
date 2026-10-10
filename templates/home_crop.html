@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}My Farm{% endblock %}
+
+{% block content %}
+<section class="kd-hero py-4">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="text-white">
+        <h1 class="h3 mb-1"><i class="bi bi-house-heart-fill me-2 text-warning"></i>Welcome back, {{ farmer.name.split(' ')[0] }}</h1>
+        <p class="mb-0">
+          {% if farmer.district or farmer.state %}
+            <i class="bi bi-geo-alt me-1"></i>{{ farmer.district }}{% if farmer.district and farmer.state %}, {% endif %}{{ farmer.state }}
+          {% endif %}
+          {% if farmer.land_area_acres %}
+            <span class="ms-3"><i class="bi bi-rulers me-1"></i>{{ farmer.land_area_acres }} acres</span>
+          {% endif %}
+        </p>
+      </div>
+      <a href="{{ url_for('auth.profile') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-gear me-1"></i>Edit profile</a>
+    </div>
+  </div>
+</section>
+
+<div class="container py-4">
+  <h2 class="kd-section-title mb-3">Farm tools</h2>
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card kd-card h-100 p-4">
+        <div class="d-flex align-items-start gap-3">
+          <div class="kd-feature-icon"><i class="bi bi-flower1"></i></div>
+          <div>
+            <h4>Crop recommendation</h4>
+            <p class="text-muted mb-3">Enter your soil N-P-K, pH, rainfall and climate to get the best-fit crop with expected profit.</p>
+            <a href="{{ url_for('farmer.crop_recommendation') }}" class="btn btn-success"><i class="bi bi-arrow-right-circle me-1"></i>Recommend a crop</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card kd-card h-100 p-4">
+        <div class="d-flex align-items-start gap-3">
+          <div class="kd-feature-icon"><i class="bi bi-droplet-half"></i></div>
+          <div>
+            <h4>Fertilizer recommendation</h4>
+            <p class="text-muted mb-3">Get the right fertilizer and exact dose for your crop, soil type and field size.</p>
+            <a href="{{ url_for('farmer.fertilizer_recommendation') }}" class="btn btn-success"><i class="bi bi-arrow-right-circle me-1"></i>Recommend fertilizer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card kd-card h-100 p-4">
+        <div class="d-flex align-items-start gap-3">
+          <div class="kd-feature-icon"><i class="bi bi-camera"></i></div>
+          <div>
+            <h4>Disease detection</h4>
+            <p class="text-muted mb-3">Snap a leaf photo and our vision model flags the disease with prevention tips.</p>
+            <a href="{{ url_for('farmer.crop_detection') }}" class="btn btn-success"><i class="bi bi-arrow-right-circle me-1"></i>Check a leaf photo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card kd-card h-100 p-4">
+        <div class="d-flex align-items-start gap-3">
+          <div class="kd-feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
+          <div>
+            <h4>Yield prediction</h4>
+            <p class="text-muted mb-3">Estimate tonnes-per-hectare and total production for a crop before you sow.</p>
+            <a href="{{ url_for('farmer.crop_yield') }}" class="btn btn-success"><i class="bi bi-arrow-right-circle me-1"></i>Predict yield</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="kd-section-title mb-0"><i class="bi bi-cloud-sun me-1"></i>Weather</h2>
+        {% if forecast %}
+          <a href="{{ url_for('main.weather_page', place=place) }}" class="btn btn-sm btn-outline-success">Full forecast <i class="bi bi-arrow-right"></i></a>
+        {% endif %}
+      </div>
+      {% if forecast %}
+        <div class="card kd-card p-3">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <i class="bi bi-thermometer-half fs-1 text-success"></i>
+            <div>
+              <div class="fs-3 fw-bold">{{ forecast.current.temperature }}&deg;C</div>
+              <div class="text-muted small">{{ forecast.current.condition }} · {{ forecast.place.name }}{% if forecast.place.admin1 %}, {{ forecast.place.admin1 }}{% endif %}</div>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            {% for day in forecast.days %}
+              <div class="col-4">
+                <div class="kd-weather-day">
+                  <div class="small text-muted">{{ day.date }}</div>
+                  <div class="temp">{{ day.t_max }}&deg;/{{ day.t_min }}&deg;</div>
+                  <div class="small">{{ day.condition }}</div>
+                  <div class="small text-primary"><i class="bi bi-droplet"></i> {{ day.rain_mm }}mm</div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          {% if forecast.advisories %}
+            <div class="d-flex flex-column gap-2">
+              {% for adv in forecast.advisories[:2] %}
+                <div class="alert alert-{{ 'danger' if adv.level == 'danger' else ('warning' if adv.level == 'warning' else 'info') }} py-2 px-3 mb-0 small">
+                  <span class="badge bg-{{ 'danger' if adv.level == 'danger' else ('warning text-dark' if adv.level == 'warning' else 'info text-dark') }} me-1">{{ adv.level | upper }}</span>
+                  <strong>{{ adv.title }}</strong> &mdash; {{ adv.text }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="card kd-card p-4 text-center">
+          <i class="bi bi-geo-alt-fill fs-2 text-muted mb-2"></i>
+          <p class="text-muted mb-2">We couldn't load a forecast right now.</p>
+          <a href="{{ url_for('auth.profile') }}" class="btn btn-sm btn-outline-success">Add your district in Profile to see weather</a>
+        </div>
+      {% endif %}
+
+      <div class="kd-form-card mt-4">
+        <h5 class="kd-section-title mb-2"><i class="bi bi-robot me-1"></i>Ask the assistant</h5>
+        <p class="text-muted small mb-3">Have a question about your farm, in your own language? The KisanConnect Sahayak is always available.</p>
+        <a href="{{ url_for('chat.page') }}" class="btn btn-success btn-sm"><i class="bi bi-chat-dots me-1"></i>Open the assistant</a>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <h2 class="kd-section-title mb-2"><i class="bi bi-clock-history me-1"></i>Recent activity</h2>
+      {% if recent %}
+        <div class="kd-timeline card kd-card p-3 mb-4">
+          {% for a in recent %}
+            <div class="item">
+              <div class="d-flex justify-content-between">
+                <strong>{{ a.activity_type }}</strong>
+                <span class="small text-muted">{{ a.timestamp.strftime('%d %b %Y %H:%M') }}</span>
+              </div>
+              <div class="small text-muted">
+                {% set out = a.output_dict() %}
+                {% for k, v in out.items() %}
+                  {% if loop.index <= 3 %}<span class="badge bg-light text-dark border me-1">{{ k }}: {{ v }}</span>{% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="card kd-card p-3 mb-4 text-muted small">No activity yet. Try a crop or fertilizer recommendation above.</div>
+      {% endif %}
+
+      <h2 class="kd-section-title mb-2"><i class="bi bi-bag-check me-1"></i>Recent orders</h2>
+      {% if orders %}
+        <div class="card kd-card p-3">
+          <ul class="list-group list-group-flush">
+            {% for order in orders %}
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                <div>
+                  <a href="{{ url_for('marketplace.order_detail', order_number=order.order_number) }}">{{ order.order_number }}</a>
+                  <div class="small text-muted">{{ order.created_at.strftime('%d %b %Y') }}</div>
+                </div>
+                <div class="text-end">
+                  <span class="badge bg-success">{{ order.status }}</span>
+                  <div class="small fw-semibold">{{ order.total | inr }}</div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+          <a href="{{ url_for('marketplace.orders') }}" class="btn btn-sm btn-outline-success mt-2">View all orders</a>
+        </div>
+      {% else %}
+        <div class="card kd-card p-3 text-muted small">
+          No orders yet. <a href="{{ url_for('marketplace.index') }}">Visit the marketplace</a>.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

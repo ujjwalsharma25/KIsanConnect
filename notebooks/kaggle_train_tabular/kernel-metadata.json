@@ -1,0 +1,17 @@
+{
+  "id": "sspanwar/KisanConnect-tabular-models-training",
+  "title": "KisanConnect tabular models - training",
+  "code_file": "kaggle_train_tabular.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": true,
+  "dataset_sources": [
+    "sspanwar/KisanConnect-lab-src"
+  ],
+  "competition_sources": [
+    "playground-series-s5e6"
+  ],
+  "kernel_sources": []
+}

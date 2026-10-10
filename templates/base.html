@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}KisanConnect{% endblock %} · KisanConnect</title>
+  <meta name="description" content="{% block meta_description %}KisanConnect - AI-powered crop, fertilizer, disease and yield advice for Indian farmers, with weather, mandi prices and an input marketplace.{% endblock %}">
+  <link rel="icon" href="{{ url_for('static', filename='images/logo1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<nav class="navbar navbar-expand-lg navbar-dark kd-navbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
+      <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="" class="kd-logo me-2">
+      <span class="fw-bold">KisanConnect</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#kdNav" aria-controls="kdNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="kdNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}" href="{{ url_for('main.index') }}">Home</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {% if request.blueprint == 'farmer' %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Farm Tools</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ url_for('farmer.crop_recommendation') }}"><i class="bi bi-flower1 me-2"></i>Crop Recommendation</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('farmer.fertilizer_recommendation') }}"><i class="bi bi-droplet-half me-2"></i>Fertilizer Recommendation</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('farmer.crop_detection') }}"><i class="bi bi-camera me-2"></i>Disease Detection</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('farmer.crop_yield') }}"><i class="bi bi-graph-up-arrow me-2"></i>Yield Prediction</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.fert_calc') }}"><i class="bi bi-calculator me-2"></i>Fertilizer Calculator</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('main.calendar_page') }}"><i class="bi bi-calendar3 me-2"></i>Crop Calendar</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link {% if request.blueprint == 'marketplace' %}active{% endif %}" href="{{ url_for('marketplace.index') }}">Marketplace</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.weather_page' %}active{% endif %}" href="{{ url_for('main.weather_page') }}">Weather</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.mandi_page' %}active{% endif %}" href="{{ url_for('main.mandi_page') }}">Mandi Prices</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.endpoint == 'main.schemes_page' %}active{% endif %}" href="{{ url_for('main.schemes_page') }}">Schemes</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.blueprint == 'chat' %}active{% endif %}" href="{{ url_for('chat.page') }}"><i class="bi bi-robot me-1"></i>Assistant</a></li>
+      </ul>
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        {% if current_farmer %}
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="{{ url_for('marketplace.cart') }}" aria-label="Cart">
+              <i class="bi bi-cart3 fs-5"></i>
+              <span class="badge rounded-pill bg-warning text-dark kd-cart-badge" id="cartCount" {% if not cart_count %}hidden{% endif %}>{{ cart_count }}</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle me-1"></i>{{ current_farmer.name.split(' ')[0] }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="{{ url_for('farmer.home') }}"><i class="bi bi-house-door me-2"></i>My Farm</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('farmer.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('marketplace.orders') }}"><i class="bi bi-bag-check me-2"></i>My Orders</a></li>
+              <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}"><i class="bi bi-gear me-2"></i>Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ url_for('auth.farmer_logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.farmer_login') }}">Login</a></li>
+          <li class="nav-item"><a class="btn btn-warning btn-sm ms-lg-2 fw-semibold" href="{{ url_for('auth.farmer_registration') }}">Register</a></li>
+        {% endif %}
+        {% if session.get('admin_logged_in') %}
+          <li class="nav-item"><a class="nav-link text-warning" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-shield-lock me-1"></i>Admin</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-3" id="flashArea">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show shadow-sm" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main class="kd-main {% block main_class %}{% endblock %}">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="kd-footer mt-auto">
+  <div class="container py-4">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h6 class="fw-bold text-white"><i class="bi bi-tree-fill me-1 text-warning"></i>KisanConnect</h6>
+        <p class="small mb-2">AI decision support for Indian farmers: crop and fertilizer recommendations, leaf disease detection, yield prediction, weather advisories, mandi prices and a trusted input marketplace.</p>
+        <p class="small mb-0 text-white-50">Recommendations are estimates from models trained on public datasets. Confirm with your local Krishi Vigyan Kendra before large investments.</p>
+      </div>
+      <div class="col-6 col-md-2">
+        <h6 class="fw-bold text-white">Tools</h6>
+        <ul class="list-unstyled small">
+          <li><a href="{{ url_for('farmer.crop_recommendation') }}">Crop Recommendation</a></li>
+          <li><a href="{{ url_for('farmer.fertilizer_recommendation') }}">Fertilizer Advice</a></li>
+          <li><a href="{{ url_for('farmer.crop_detection') }}">Disease Detection</a></li>
+          <li><a href="{{ url_for('farmer.crop_yield') }}">Yield Prediction</a></li>
+          <li><a href="{{ url_for('main.fert_calc') }}">Fertilizer Calculator</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-2">
+        <h6 class="fw-bold text-white">Information</h6>
+        <ul class="list-unstyled small">
+          <li><a href="{{ url_for('main.weather_page') }}">Weather</a></li>
+          <li><a href="{{ url_for('main.mandi_page') }}">Mandi Prices</a></li>
+          <li><a href="{{ url_for('main.schemes_page') }}">Government Schemes</a></li>
+          <li><a href="{{ url_for('main.calendar_page') }}">Crop Calendar</a></li>
+          <li><a href="{{ url_for('main.about') }}">About &amp; Models</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="fw-bold text-white">Helplines</h6>
+        <ul class="list-unstyled small mb-2">
+          <li><i class="bi bi-telephone me-1"></i>Kisan Call Centre: <strong>9528603439</strong> (toll free, 6 am-10 pm)</li>
+          <li><i class="bi bi-telephone me-1"></i>PM-KISAN helpline: <strong>155261</strong> / 011-24300606</li>
+          <li><i class="bi bi-robot me-1"></i>Assistant: {{ assistant_info.provider }}{% if assistant_info.model %} · {{ assistant_info.model }}{% endif %}</li>
+        </ul>
+        <p class="small text-white-50 mb-0">&copy; {{ now_year if now_year else 2026 }} KisanConnect · Built by Team Code Hunters</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% if request.blueprint != 'chat' and not hide_chat_widget %}
+<div class="kd-chat-widget" id="kdChatWidget">
+  <button class="kd-chat-toggle btn btn-success shadow" id="kdChatToggle" type="button" aria-label="Open assistant">
+    <i class="bi bi-chat-dots-fill fs-5"></i><span class="ms-2 d-none d-sm-inline">Ask KisanConnect</span>
+  </button>
+  <div class="kd-chat-panel shadow-lg" id="kdChatPanel" hidden>
+    <div class="kd-chat-head">
+      <div>
+        <strong><i class="bi bi-robot me-1"></i>KisanConnect Sahayak</strong>
+        <div class="small text-white-50">Crops · Fertilizer · Diseases · Weather · Prices</div>
+      </div>
+      <div class="d-flex gap-1">
+        <a class="btn btn-sm btn-outline-light" href="{{ url_for('chat.page') }}" title="Open full assistant"><i class="bi bi-arrows-fullscreen"></i></a>
+        <button class="btn btn-sm btn-outline-light" id="kdChatClose" type="button" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+    </div>
+    <div class="kd-chat-messages" id="kdChatMessages">
+      <div class="kd-msg kd-msg-bot">Namaste! Ask me about crops, fertilizer doses, plant diseases, weather, mandi prices or government schemes. You can also attach a leaf photo.</div>
+    </div>
+    <form class="kd-chat-form" id="kdChatForm" autocomplete="off">
+      <label class="btn btn-light btn-sm mb-0" title="Attach leaf photo"><i class="bi bi-image"></i>
+        <input type="file" id="kdChatImage" accept="image/*" hidden></label>
+      <input type="text" class="form-control form-control-sm" id="kdChatInput" placeholder="Type your question…" maxlength="1000">
+      <button class="btn btn-success btn-sm" type="submit" aria-label="Send"><i class="bi bi-send-fill"></i></button>
+    </form>
+    <div class="small text-muted px-2 pb-1" id="kdChatStatus"></div>
+  </div>
+</div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script>
+  window.KD = {
+    chatUrl: "{{ url_for('chat.send') }}",
+    cartAddUrl: "{{ url_for('marketplace.cart_add') }}",
+    loggedIn: {{ 'true' if current_farmer else 'false' }},
+    loginUrl: "{{ url_for('auth.farmer_login') }}",
+    language: "{{ current_farmer.preferred_language if current_farmer and current_farmer.preferred_language else 'en' }}"
+  };
+</script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
