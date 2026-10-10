@@ -12,6 +12,7 @@
 ![ONNX](https://img.shields.io/badge/Vision-ONNX%20%2F%20PyTorch-005CED?style=flat-square)
 ![Team](https://img.shields.io/badge/Team-Code%20Hunters-4f46e5?style=flat-square)
 [![License](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-lightgrey?style=flat-square)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-success?style=flat-square&logo=vercel&logoColor=white)](https://kisanconnect-1-3bbk.onrender.com)
 
 </div>
 
