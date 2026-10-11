@@ -59,17 +59,6 @@ Every feature is backed by a real model, rule or data source, and the app is hon
 | 🤖 **Assistant** | Chat with tool use over every service above, Hindi/Hinglish support |
 | 🛠️ **Admin** | Farmer verification, orders, catalogue, activity audit, chat logs, labelling queue |
 
----
-
-## 🙏 Credits and Upstream Project
-
-KisanConnect is built on top of the open-source **KrishiDisha** project and is released under the same licence terms.
-
-- **Original project:** KrishiDisha by **Shivpratap Singh Panwar, Abhishek Chourasia and Goutam Mandloi**.
-- **Paper:** *"KrishiDisha: Revolutionizing Agriculture with Intelligent Recommendations, Disease Detection, and Yield Prediction"*, 2025 IEEE ICoEIT, pp. 1028-1040, [doi:10.1109/ICoEIT63558.2025.11211713](https://doi.org/10.1109/ICoEIT63558.2025.11211713).
-- **Our work (Team Code Hunters):** rebranding to KisanConnect, environment setup and fixes (for example the yield model trainer now uses a dense one-hot encoder so it trains on current scikit-learn), and demo preparation.
-
-The model metrics in [Reference Results](#-reference-results) were reported by the original authors for their trained weights. See [Model Weights](#-model-weights) for what this deployment actually uses.
 
 ---
 
@@ -296,11 +285,6 @@ erDiagram
 | JSON API | Everything above for apps, SMS and WhatsApp gateways | `/api/v1/...` (see `/about`) |
 
 ---
-
-## 📊 Reference Results
-
-These numbers were reported by the **original KrishiDisha authors** for their trained models (from `models/reports/*.md` and `models/metrics_tabular.json`). They describe those weights, not the public demo disease model described in [Model Weights](#-model-weights).
-
 ### Disease detection (original field model)
 
 | Version | Images / classes | Field test | Top-1 | Top-3 |
@@ -319,16 +303,6 @@ The original model was trained only on field photographs of crops Indian farmers
 | Fertilizer | Rule-first, not model-first | The classifier is only a labelled `model_hint` |
 
 Full model cards: `models/reports/crop_card.md`, `fertilizer_card.md`, `yield_card.md`, `disease_eval.md`.
-
----
-
-## 🔐 Model Weights
-
-The original trained weights (field disease classifier, tabular models, fine-tuned assistant) are **not distributed** by the KrishiDisha authors. What that means for this deployment:
-
-- **Tabular models** (crop, fertilizer, yield) train automatically on first use from the bundled CSVs, in seconds.
-- **Disease detection** falls back to a public demo model from Hugging Face (`linkanjarad/mobilenet_v2_1.0_224-plant-disease-identification`, 38 classes), downloaded on first run. It works best on clear, close-up leaf photos and is **not** the original field model, so the reference accuracy above does not apply to it.
-- To obtain the original weights for research, pilot or partnership, contact the original author Shivpratap Singh Panwar (details in the upstream project).
 
 ---
 
@@ -403,8 +377,6 @@ api/                        optional standalone FastAPI service (legacy)
 docs/screenshots/           UI screenshots
 ```
 
-> The Python package folder keeps its original name `kisanconnect` so that all imports keep working. The product name shown to users is **KisanConnect**.
-
 ---
 
 ## 🧪 Tests and Deployment
@@ -428,24 +400,7 @@ The suite runs fully offline (rules assistant, stub disease model, in-memory dat
 
 ---
 
-## 📜 License
 
-Source-available under the **PolyForm Noncommercial License 1.0.0**, inherited from the upstream KrishiDisha project. See [LICENSE](LICENSE). Noncommercial use (personal, academic, research, charitable, public-sector) is permitted; commercial use requires a separate written agreement with the original copyright holders. Datasets and third-party libraries keep their own licences.
-
-If you use this work in research, please cite the original paper:
-
-```bibtex
-@inproceedings{kisanconnect2025,
-  title     = {KrishiDisha: Revolutionizing Agriculture with Intelligent Recommendations, Disease Detection, and Yield Prediction},
-  author    = {Panwar, Shivpratap Singh and Chourasia, Abhishek and Mandloi, Goutam},
-  booktitle = {2025 IEEE International Conference on Engineering Innovations and Technologies (ICoEIT)},
-  pages     = {1028--1040},
-  year      = {2025},
-  doi       = {10.1109/ICoEIT63558.2025.11211713}
-}
-```
-
----
 
 ## 👥 Team
 
@@ -453,7 +408,7 @@ If you use this work in research, please cite the original paper:
 
 ### KisanConnect by Team Code Hunters 🏹
 
-**Ujjwal Sharma**
+**Ujjwal Sharma**(Team Leader)
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Ujjwal_Sharma-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/ujjwal-sharma-934100379)
 [![GitHub](https://img.shields.io/badge/GitHub-ujjwalsharma25-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ujjwalsharma25)
@@ -466,6 +421,3 @@ Based on **KrishiDisha** by Shivpratap Singh Panwar, Abhishek Chourasia and Gout
 
 ---
 
-## ⚠️ Disclaimer
-
-Recommendations are estimates from models trained on public datasets. Validate with your local Krishi Vigyan Kendra or an agronomist before large investments. Kisan Call Centre: **1800-180-1551**.
