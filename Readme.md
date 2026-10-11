@@ -413,7 +413,6 @@ The suite runs fully offline (rules assistant, stub disease model, in-memory dat
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Ujjwal_Sharma-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/ujjwal-sharma-934100379)
 [![GitHub](https://img.shields.io/badge/GitHub-ujjwalsharma25-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ujjwalsharma25)
 
-Based on **KrishiDisha** by Shivpratap Singh Panwar, Abhishek Chourasia and Goutam Mandloi.
 
 *⭐ If this project helped you, consider giving it a star!*
 
